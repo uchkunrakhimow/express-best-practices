@@ -1,577 +1,440 @@
-# The Complete Express.js Folder Structure Guide
+# Express.js Best Practices & Architecture Guide
 
-A comprehensive resource for organizing Express.js applications from basic projects to enterprise-level architectures.
+## Why Choose Express.js?
 
-## Introduction
+Express.js remains the **de facto standard** for Node.js web applications due to its:
 
-Proper folder structure is a critical yet often overlooked aspect of Express.js application development. This guide provides practical, battle-tested folder structures that scale with your project's complexity. Whether you're building a simple API or an enterprise-grade application, you'll find organization patterns that promote maintainability, scalability, and collaboration.
+- **Minimalist Philosophy**: Provides essential web application features without unnecessary bloat
+- **Mature Ecosystem**: Extensive middleware library and community support
+- **Performance**: Lightweight and fast, ideal for high-throughput applications
+- **Flexibility**: Unopinionated framework allowing architectural freedom
+- **Learning Curve**: Gentle introduction to backend development concepts
 
-## Table of Contents
+### Why TypeScript for Large Projects?
 
-- [The Complete Express.js Folder Structure Guide](#the-complete-expressjs-folder-structure-guide)
-  - [Introduction](#introduction)
-  - [Table of Contents](#table-of-contents)
-  - [Complexity Levels](#complexity-levels)
-    - [Beginner Level Structure](#beginner-level-structure)
-    - [Intermediate Level Structure](#intermediate-level-structure)
-    - [Advanced Level Structure](#advanced-level-structure)
-  - [Architectural Patterns](#architectural-patterns)
-    - [Microservices Architecture](#microservices-architecture)
-    - [Monorepo Structure](#monorepo-structure)
-    - [Feature-Based Organization](#feature-based-organization)
-  - [Technology Integrations](#technology-integrations)
-    - [TypeScript Integration](#typescript-integration)
-    - [GraphQL Integration](#graphql-integration)
-    - [Real-time Applications](#real-time-applications)
-  - [DevOps Considerations](#devops-considerations)
-    - [Testing Strategy](#testing-strategy)
-    - [Migration Strategy](#migration-strategy)
-    - [Dependency Management](#dependency-management)
-  - [Integration Best Practices](#integration-best-practices)
-  - [Universal Best Practices](#universal-best-practices)
+For **enterprise-grade applications**, TypeScript is essential:
 
-## Complexity Levels
+- **Type Safety**: Prevents runtime errors through compile-time checking
+- **Better IDE Support**: Enhanced autocomplete, refactoring, and navigation
+- **Team Collaboration**: Self-documenting code with clear interfaces
+- **Maintainability**: Easier refactoring and code evolution
+- **Developer Experience**: Improved debugging and error messages
 
-### Beginner Level Structure
+> **Note**: While TypeScript adds complexity initially, it becomes invaluable as projects scale beyond 10k+ lines of code.
 
-The beginner structure focuses on simplicity and ease of understanding while maintaining basic separation of concerns.
+---
 
-```
-project-root/
-├── node_modules/
-├── public/                 # Static files (CSS, images, client-side JS)
-├── views/                  # Template files (if using a view engine)
-├── routes/                 # Route definitions
-│   ├── index.js            # Main routes
-│   └── users.js            # User-related routes
-├── controllers/            # Request handlers
-│   ├── indexController.js
-│   └── userController.js
-├── models/                 # Data models
-│   └── user.js
-├── config/                 # Configuration files
-│   └── database.js         # Database configuration
-├── app.js                  # Express application setup
-├── server.js               # Server startup
-├── package.json
-└── README.md
-```
+## Project Structure
 
-**Key Features:**
-
-- **Simple and Straightforward**: Easy to navigate and understand
-- **Basic Separation**: Clear distinction between routes, controllers, and models
-- **Limited Abstractions**: Minimal middleware and utility functions
-- **Direct Dependencies**: Third-party integrations directly in relevant files
-
-**When to Use:**
-
-- Small projects with limited scope
-- Learning projects for Express.js beginners
-- Prototypes or proofs of concept
-- Projects with a single developer or small team
-
-### Intermediate Level Structure
-
-The intermediate structure introduces more organization, better code reuse, and improved separation of concerns.
-
-```
-project-root/
-├── node_modules/
-├── public/
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── views/
-│   ├── layouts/
-│   ├── partials/
-│   └── pages/
-├── src/
-│   ├── routes/
-│   │   ├── api/
-│   │   │   ├── v1/
-│   │   │   └── index.js
-│   │   └── web/
-│   │       └── index.js
-│   ├── controllers/
-│   │   ├── api/
-│   │   └── web/
-│   ├── models/
-│   │   ├── schemas/
-│   │   └── index.js
-│   ├── services/           # Business logic layer
-│   │   ├── authService.js
-│   │   └── userService.js
-│   ├── middleware/         # Custom middleware
-│   │   ├── auth.js
-│   │   ├── errorHandler.js
-│   │   └── validator.js
-│   ├── utils/              # Helper functions
-│   │   ├── logger.js
-│   │   └── helpers.js
-│   ├── integrations/       # Third-party service integrations
-│   │   ├── payments/
-│   │   └── storage/
-│   └── config/
-│       ├── database.js
-│       ├── app.js
-│       └── env/
-│           ├── development.js
-│           └── production.js
-├── tests/                  # Test files
-│   ├── unit/
-│   └── integration/
-├── app.js
-├── server.js
-├── package.json
-├── .env.example
-├── .gitignore
-└── README.md
-```
-
-**Key Features:**
-
-- **Service Layer**: Separation of business logic from controllers
-- **Versioned API Routes**: Support for API versioning
-- **Enhanced Middleware**: Custom middleware for common tasks
-- **Environment Configuration**: Different configs for development/production
-- **Testing Structure**: Organized test files
-- **Dedicated Integration Folder**: Centralized third-party service integrations
-
-**When to Use:**
-
-- Medium-sized applications
-- Projects with multiple developers
-- Applications requiring API versioning
-- Projects with significant third-party integrations
-
-### Advanced Level Structure
-
-The advanced structure focuses on scalability, maintainability, and enterprise-level organization.
-
-```
-project-root/
-├── node_modules/
-├── dist/                   # Compiled code (if using TypeScript)
-├── public/
-│   ├── assets/
-│   │   ├── css/
-│   │   ├── js/
-│   │   └── images/
-│   └── uploads/            # User-generated content
-├── src/
-│   ├── api/                # API module
-│   │   ├── routes/
-│   │   │   ├── v1/
-│   │   │   └── v2/
-│   │   ├── controllers/
-│   │   ├── validators/     # Request validation schemas
-│   │   └── docs/           # API documentation
-│   ├── web/                # Web UI module
-│   │   ├── routes/
-│   │   ├── controllers/
-│   │   └── views/
-│   ├── core/               # Core application code
-│   │   ├── models/
-│   │   │   ├── schemas/
-│   │   │   └── repositories/  # Data access layer
-│   │   ├── services/
-│   │   │   ├── domain/        # Domain-specific services
-│   │   │   └── infrastructure/ # Infrastructure services
-│   │   ├── events/            # Event handlers/emitters
-│   │   └── interfaces/        # Type definitions/interfaces
-│   ├── infrastructure/      # Infrastructure concerns
-│   │   ├── database/
-│   │   │   ├── migrations/
-│   │   │   ├── seeders/
-│   │   │   └── connection.js
-│   │   ├── logging/
-│   │   ├── cache/
-│   │   ├── queue/
-│   │   └── storage/
-│   ├── integrations/         # External service integrations
-│   │   ├── payments/
-│   │   ├── communications/
-│   │   ├── analytics/
-│   │   └── thirdParty/
-│   ├── middleware/
-│   ├── utils/
-│   ├── config/
-│   └── bootstrap/           # Application bootstrap files
-├── scripts/                 # Utility scripts
-├── tests/
-│   ├── unit/
-│   ├── integration/
-│   ├── functional/
-│   └── performance/
-├── docs/                    # Project documentation
-├── .github/                 # CI/CD workflows
-├── app.js
-├── server.js
-├── package.json
-├── docker-compose.yml
-├── Dockerfile
-└── README.md
-```
-
-**Key Features:**
-
-- **Modular Architecture**: Clear separation of API, web, and core modules
-- **Domain-Driven Design**: Organized around business domains
-- **Repository Pattern**: Data access abstraction
-- **Infrastructure Layer**: Dedicated infrastructure concerns
-- **Event-Driven Architecture**: Support for application events
-- **Comprehensive Testing**: Multiple test types and fixtures
-- **Documentation**: Extensive internal documentation
-- **DevOps Integration**: CI/CD configuration and containerization
-
-**When to Use:**
-
-- Large-scale enterprise applications
-- Projects with complex business domains
-- Applications requiring high scalability
-- Projects with large development teams
-
-## Architectural Patterns
-
-### Microservices Architecture
-
-When building Express.js applications as part of a microservices ecosystem, the folder structure needs to balance service independence with consistent patterns across services.
-
-```
-product-service/
-├── src/
-│   ├── api/
-│   │   ├── routes/
-│   │   ├── controllers/
-│   │   └── validators/
-│   ├── domain/
-│   │   ├── models/
-│   │   ├── services/
-│   │   └── events/
-│   ├── infrastructure/
-│   │   ├── database/
-│   │   ├── messaging/
-│   │   └── external-services/
-│   └── utils/
-├── tests/
-├── package.json
-└── service.yml
-```
-
-**Key Principles:**
-
-- Each service maintains its own database
-- Service boundaries defined by business domains
-- Inter-service communication via message brokers
-- Service discovery and configuration management
-- Shared libraries as dependencies
-
-### Monorepo Structure
-
-When multiple Express.js applications or services are developed in conjunction, a monorepo structure can facilitate code sharing and consistency.
-
-```
-platform-monorepo/
-├── packages/
-│   ├── shared/              # Shared utilities and components
-│   │   ├── logger/
-│   │   ├── validation/
-│   │   └── auth/
-│   ├── ui-components/       # Shared UI components
-│   └── api-client/          # Shared API client libraries
-├── services/
-│   ├── service-a/           # Express.js service
-│   ├── service-b/           # Express.js service
-│   └── service-c/           # Express.js service
-├── apps/
-│   ├── web-app/             # Web application
-│   └── admin-dashboard/     # Admin dashboard
-├── tools/                   # Development and deployment tools
-├── package.json
-└── lerna.json               # Monorepo management
-```
-
-**Key Principles:**
-
-- Workspace configuration for dependency management
-- Shared code extracted into packages
-- Coordinated build and test pipelines
-- Consistent coding standards
-- Deployment strategies for service dependencies
-
-### Feature-Based Organization
-
-Organizing by feature rather than technical concern can lead to more intuitive codebases, especially for domain-complex applications.
-
-```
-application/
-├── src/
-│   ├── features/
-│   │   ├── feature-a/
-│   │   │   ├── routes.js
-│   │   │   ├── controllers.js
-│   │   │   ├── services.js
-│   │   │   ├── models.js
-│   │   │   └── tests/
-│   │   ├── feature-b/
-│   │   │   ├── routes.js
-│   │   │   ├── controllers.js
-│   │   │   ├── services.js
-│   │   │   ├── models.js
-│   │   │   └── tests/
-│   │   └── feature-c/
-│   │       ├── routes.js
-│   │       ├── controllers.js
-│   │       ├── services.js
-│   │       ├── models.js
-│   │       └── tests/
-│   ├── core/                # Cross-cutting concerns
-│   └── infrastructure/
-└── server.js
-```
-
-**Key Principles:**
-
-- Organization around features, not technical layers
-- Co-location of related code
-- Cross-cutting concerns in core directory
-- Feature-based team organization
-- Tests co-located with features
-
-## Technology Integrations
-
-### TypeScript Integration
-
-Effective TypeScript integration requires additional considerations for type definitions and organization.
-
-```
-typescript-express/
-├── src/
-│   ├── types/              # Global type definitions
-│   │   ├── models.d.ts
-│   │   ├── api.d.ts
-│   │   └── config.d.ts
-│   ├── modules/
-│   │   ├── module-a/
-│   │   │   ├── types.ts    # Module-specific types
-│   │   │   ├── controllers.ts
-│   │   │   ├── services.ts
-│   │   │   └── repository.ts
-│   │   └── module-b/
-│   ├── utils/
-├── tsconfig.json
-└── server.ts
-```
-
-**Key Principles:**
-
-- Centralized global types with module-specific types co-located
-- Type-guard utilities for runtime type safety
-- Interface segregation to prevent tight coupling
-- Path aliases in tsconfig.json
-- Generic types for common patterns
-
-### GraphQL Integration
-
-Integrating GraphQL into an Express.js application requires specific organizational considerations.
-
-```
-graphql-express/
-├── src/
-│   ├── graphql/
-│   │   ├── schema/
-│   │   │   ├── typeDefs/
-│   │   │   │   ├── entity-a.graphql
-│   │   │   │   ├── entity-b.graphql
-│   │   │   │   └── index.js
-│   │   │   └── resolvers/
-│   │   │       ├── entity-a.js
-│   │   │       ├── entity-b.js
-│   │   │       └── index.js
-│   │   ├── directives/
-│   │   └── dataSources/
-│   ├── models/
-│   └── services/
-├── server.js
-└── apollo-server.js
-```
-
-**Key Principles:**
-
-- Modularized schema by domain entity
-- Resolvers structured to match schema organization
-- DataSources abstract data fetching
-- Directives handle cross-cutting concerns
-- Shared business logic between REST and GraphQL
-
-### Real-time Applications
-
-Express applications supporting WebSockets or Server-Sent Events require additional organizational considerations.
-
-```
-realtime-express/
-├── src/
-│   ├── api/                      # REST API
-│   ├── realtime/                 # Real-time functionality
-│   │   ├── socket-server.js
-│   │   ├── events/
-│   │   ├── channels/
-│   │   └── middleware/
-│   ├── services/                 # Shared business logic
-│   └── models/
-└── server.js
-```
-
-**Key Principles:**
-
-- Separation of socket handling from HTTP API
-- Event handlers organized by domain
-- Consistent authentication between HTTP and WebSockets
-- Shared business logic
-- Centralized connection state management
-
-## DevOps Considerations
-
-### Testing Strategy
-
-A comprehensive testing structure aligns with the application architecture while providing appropriate isolation and coverage.
-
-```
-project-with-testing/
-├── src/
-├── tests/
-│   ├── unit/                      # Unit tests
-│   ├── integration/               # Integration tests
-│   ├── e2e/                       # End-to-end tests
-│   ├── performance/               # Load testing
-│   ├── fixtures/                  # Test data
-│   ├── mocks/                     # Mock implementations
-│   └── utils/                     # Test utilities
-└── jest.config.js
-```
-
-**Key Principles:**
-
-- Test organization mirrors application structure
-- Test utilities abstract common patterns
-- Mock implementations simulate external dependencies
-- Fixtures provide consistent test data
-- Database setup/teardown utilities ensure isolation
-
-### Migration Strategy
-
-A well-structured approach to database migrations is essential for maintaining data integrity across environments.
-
-```
-project-with-migrations/
-├── src/
-│   ├── infrastructure/
-│   │   └── database/
-│   │       ├── migrations/
-│   │       │   ├── versions/
-│   │       │   ├── templates/
-│   │       │   └── migration-runner.js
-│   │       └── seeders/
-│   │           ├── development/
-│   │           └── production/
-└── scripts/
-    └── db/
-        ├── create-migration.js
-        └── create-seeder.js
-```
-
-**Key Principles:**
-
-- Timestamped migrations for sequential execution
-- Migration generation tools for consistency
-- Environment-specific seeders
-- Migration status tracking
-- Rollback procedures
-- Auto-generated schema documentation
-
-### Dependency Management
-
-Effective management of internal dependencies prevents cycles and promotes maintainable code.
-
-```
-project-with-dependencies/
-├── src/
-│   ├── layers/
-│   │   ├── presentation/         # Depends on application
-│   │   ├── application/          # Depends on domain
-│   │   ├── domain/               # No dependencies
-│   │   └── infrastructure/       # Depends on domain
-│   └── cross-cutting/            # Used by all layers
-└── dependency-graph.json
-```
-
-**Key Principles:**
-
-- Clear layer boundaries prevent inappropriate dependencies
-- Domain models have no external dependencies
-- Infrastructure adapters convert between domain and external formats
-- Dependency direction flows inward toward the domain
-- Cross-cutting concerns designed for use by any layer
-
-## Integration Best Practices
-
-Proper placement of integrations is crucial for maintainability and separation of concerns.
+### Core Architecture
 
 ```
 src/
-└── integrations/
-    ├── payments/              # Payment service integrations
-    │   ├── stripe/
-    │   │   ├── config.js
-    │   │   ├── client.js
-    │   │   └── webhooks.js
-    │   ├── paypal/
-    │   └── index.js           # Unified payment interface
-    ├── communications/        # Communication service integrations
-    │   ├── email/
-    │   └── sms/
-    ├── storage/               # Storage service integrations
-    └── analytics/             # Analytics integrations
+├── modules/                 # Feature-based modules
+│   ├── users/
+│   ├── auth/
+│   ├── products/
+│   └── orders/
+├── integrations/           # External service integrations
+│   ├── gcp/               # Google Cloud Platform services
+│   ├── aws/               # Amazon Web Services
+│   ├── payments/          # Payment processors
+│   └── ai/                # AI service integrations
+├── shared/                # Shared utilities and types
+│   ├── types/
+│   ├── utils/
+│   ├── middleware/
+│   └── constants/
+├── config/                # Configuration files
+└── app.ts                 # Application entry point
 ```
 
-**Key Practices:**
+### Module Structure Pattern
 
-1. **Abstraction Layer**: Create a unified interface for each integration type
-2. **Configuration Separation**: Keep credentials and configuration separate
-3. **Dependency Injection**: Allow for easy service swapping and testing
-4. **Error Handling**: Consistent error handling and logging
-5. **Retry Logic**: Implement retry mechanisms for transient failures
-6. **Circuit Breakers**: Prevent cascading failures
-7. **Mocking Support**: Design integrations to be easily mockable
-8. **Webhooks Management**: Centralized handling of incoming webhooks
-9. **Version Management**: Handle API version changes gracefully
-10. **Health Checks**: Monitor integration health and availability
+Each module follows a consistent structure:
 
-## Universal Best Practices
+```
+src/modules/users/
+├── index.ts              # Module exports
+├── users.controller.ts   # HTTP request handlers
+├── users.service.ts      # Business logic
+├── users.dto.ts          # Data Transfer Objects (Zod schemas)
+├── users.bo.ts           # Business Objects/Models
+├── users.types.ts        # TypeScript interfaces
+└── users.routes.ts       # Route definitions
+```
 
-These practices apply regardless of the complexity level of your Express.js application:
+---
 
-1. **Separation of Concerns**: Keep code organized by function
-2. **Dependency Injection**: Avoid hard-coded dependencies
-3. **Configuration Management**: Externalize configuration from code
-4. **Error Handling**: Implement consistent error handling
-5. **Logging**: Use structured logging with appropriate detail levels
-6. **Security**: Apply security best practices at every level
-7. **Testing**: Include tests for all critical functionality
-8. **Documentation**: Document code, APIs, and architecture decisions
-9. **Consistency**: Follow naming conventions and coding standards
-10. **Scalability**: Design for horizontal scaling from the beginning
+## Module Examples
 
-**Advanced Practices:**
+### Users Module
 
-11. **Boundary Management**: Clearly define and enforce module boundaries
-12. **Versioning Strategy**: Plan for API and schema evolution
-13. **Observability**: Implement comprehensive monitoring and tracing
-14. **Performance Optimization**: Identify and optimize critical paths
-15. **Database Access Patterns**: Use appropriate patterns for data access
-16. **Error Traceability**: Implement request IDs for tracking issues
-17. **Internationalization**: Design for multi-language support
-18. **Feature Toggles**: Implement infrastructure for feature flags
-19. **Graceful Degradation**: Design systems to fail partially rather than completely
-20. **Documentation as Code**: Treat documentation as a first-class citizen
+```typescript
+// src/modules/users/users.dto.ts
+import { z } from "zod";
+
+export const CreateUserDto = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
+});
+
+export const UpdateUserDto = CreateUserDto.partial();
+
+export type CreateUserRequest = z.infer<typeof CreateUserDto>;
+export type UpdateUserRequest = z.infer<typeof UpdateUserDto>;
+```
+
+```typescript
+// src/modules/users/users.controller.ts
+import { Request, Response } from "express";
+import { UserService } from "./users.service";
+import { CreateUserDto } from "./users.dto";
+
+export class UserController {
+  constructor(private userService: UserService) {}
+
+  async createUser(req: Request, res: Response) {
+    const userData = CreateUserDto.parse(req.body);
+    const user = await this.userService.createUser(userData);
+    res.status(201).json(user);
+  }
+
+  async getUsers(req: Request, res: Response) {
+    const users = await this.userService.getUsers();
+    res.json(users);
+  }
+}
+```
+
+### Authentication Module
+
+```typescript
+// src/modules/auth/auth.service.ts
+import jwt from "jsonwebtoken";
+import argon2 from "argon2";
+
+export class AuthService {
+  async hashPassword(password: string): Promise<string> {
+    return argon2.hash(password);
+  }
+
+  async verifyPassword(hash: string, password: string): Promise<boolean> {
+    return argon2.verify(hash, password);
+  }
+
+  generateToken(userId: string): string {
+    return jwt.sign({ userId }, process.env.JWT_SECRET!, { expiresIn: "7d" });
+  }
+}
+```
+
+---
+
+## Integration Patterns
+
+### Google Cloud Platform
+
+```typescript
+// src/integrations/gcp/cloud-tasks.ts
+import { CloudTasksClient } from "@google-cloud/tasks";
+
+export class CloudTasksService {
+  private client = new CloudTasksClient();
+
+  async scheduleTask(queuePath: string, payload: any, delaySeconds?: number) {
+    const task = {
+      httpRequest: {
+        httpMethod: "POST",
+        url: process.env.TASK_HANDLER_URL,
+        body: Buffer.from(JSON.stringify(payload)),
+      },
+    };
+
+    if (delaySeconds) {
+      task.scheduleTime = {
+        seconds: Date.now() / 1000 + delaySeconds,
+      };
+    }
+
+    return this.client.createTask({ parent: queuePath, task });
+  }
+}
+```
+
+> **Why Cloud Tasks over Cron?**
+>
+> - **Scalability**: Automatic scaling based on queue depth
+> - **Reliability**: Built-in retry mechanisms and dead letter queues
+> - **Monitoring**: Integrated with Google Cloud monitoring
+> - **Cost-Effective**: Pay per task execution
+
+### AWS Integration
+
+```typescript
+// src/integrations/aws/sqs.ts
+import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
+
+export class SQSService {
+  private client = new SQSClient({ region: process.env.AWS_REGION });
+
+  async sendMessage(queueUrl: string, messageBody: any) {
+    const command = new SendMessageCommand({
+      QueueUrl: queueUrl,
+      MessageBody: JSON.stringify(messageBody),
+    });
+
+    return this.client.send(command);
+  }
+}
+```
+
+### Payment Integrations
+
+```typescript
+// src/integrations/payments/stripe.ts
+import Stripe from "stripe";
+
+export class StripeService {
+  private stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+  async createPaymentIntent(amount: number, currency: string = "usd") {
+    return this.stripe.paymentIntents.create({
+      amount: amount * 100, // Convert to cents
+      currency,
+      automatic_payment_methods: { enabled: true },
+    });
+  }
+}
+```
+
+```typescript
+// src/integrations/payments/paypal.ts
+import paypal from "@paypal/checkout-server-sdk";
+
+export class PayPalService {
+  private client: paypal.core.PayPalHttpClient;
+
+  constructor() {
+    const environment =
+      process.env.NODE_ENV === "production"
+        ? new paypal.core.LiveEnvironment(
+            process.env.PAYPAL_CLIENT_ID!,
+            process.env.PAYPAL_CLIENT_SECRET!
+          )
+        : new paypal.core.SandboxEnvironment(
+            process.env.PAYPAL_CLIENT_ID!,
+            process.env.PAYPAL_CLIENT_SECRET!
+          );
+
+    this.client = new paypal.core.PayPalHttpClient(environment);
+  }
+}
+```
+
+### AI Integrations
+
+```typescript
+// src/integrations/ai/openai.ts
+import OpenAI from "openai";
+
+export class OpenAIService {
+  private client = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
+  async generateCompletion(prompt: string, maxTokens: number = 150) {
+    const response = await this.client.chat.completions.create({
+      model: "gpt-4",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: maxTokens,
+    });
+
+    return response.choices[0]?.message?.content;
+  }
+}
+```
+
+---
+
+## Database Recommendations
+
+### SQL Databases
+
+**Prisma** _(Recommended for TypeScript projects)_
+
+```typescript
+// prisma/schema.prisma
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String
+  lastName  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+**Drizzle** _(Lightweight alternative)_
+
+```typescript
+// src/db/schema.ts
+import { pgTable, varchar, timestamp } from "drizzle-orm/pg-core";
+
+export const users = pgTable("users", {
+  id: varchar("id").primaryKey(),
+  email: varchar("email").notNull().unique(),
+  firstName: varchar("first_name").notNull(),
+  lastName: varchar("last_name").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+```
+
+### MongoDB
+
+**Mongoose** _(Recommended for MongoDB)_
+
+```typescript
+// src/modules/users/users.model.ts
+import mongoose from "mongoose";
+
+const userSchema = new mongoose.Schema(
+  {
+    email: { type: String, required: true, unique: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
+  },
+  { timestamps: true }
+);
+
+export const User = mongoose.model("User", userSchema);
+```
+
+---
+
+## Tooling & Development
+
+### Code Quality - Biome
+
+```json
+// biome.json
+{
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  }
+}
+```
+
+> **Why Biome?**
+>
+> - **Performance**: 100x faster than ESLint
+> - **Zero Configuration**: Works out of the box
+> - **Rust-Based**: Extremely fast linting and formatting
+> - **All-in-One**: Combines linting, formatting, and more
+
+### Authentication Strategies
+
+**JWT Implementation**
+
+```typescript
+// src/shared/middleware/auth.ts
+import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express";
+
+export const authenticateToken = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Access token required" });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET!, (err, user) => {
+    if (err) return res.status(403).json({ error: "Invalid token" });
+    req.user = user;
+    next();
+  });
+};
+```
+
+**Passport.js Alternative**
+
+```typescript
+// For complex authentication flows (OAuth, SAML, etc.)
+import passport from "passport";
+import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
+```
+
+### Password Hashing
+
+**Argon2** _(Recommended - Winner of password hashing competition)_
+
+```typescript
+import argon2 from "argon2";
+
+// More secure, modern algorithm
+const hash = await argon2.hash(password);
+const isValid = await argon2.verify(hash, password);
+```
+
+**bcryptjs** _(Alternative - Well established)_
+
+```typescript
+import bcrypt from "bcryptjs";
+
+// Traditional, widely adopted
+const hash = await bcrypt.hash(password, 12);
+const isValid = await bcrypt.compare(password, hash);
+```
+
+---
+
+## Key Architectural Notes
+
+### **Module Organization**
+
+- Each feature is self-contained within its module
+- Clear separation of concerns (Controller → Service → Repository)
+- Consistent naming conventions across all modules
+
+### **Integration Strategy**
+
+- Cloud services over self-hosted solutions for scalability
+- Provider-agnostic interfaces for easy switching
+- Environment-based configuration for different deployment targets
+
+### **Type Safety**
+
+- Zod for runtime validation and TypeScript type generation
+- Strict TypeScript configuration in enterprise environments
+- Clear interfaces between modules and external services
+
+### **Performance Considerations**
+
+- Use Cloud Tasks/SQS for background processing instead of blocking operations
+- Implement proper database indexing strategies
+- Cache frequently accessed data with Redis or similar
+
+### **Security Best Practices**
+
+- Always hash passwords with modern algorithms (Argon2 preferred)
+- Implement proper JWT token management with refresh tokens
+- Use environment variables for sensitive configuration
+- Validate all inputs with Zod schemas
+
+---
+
+_This architecture scales from small prototypes to enterprise applications while maintaining code quality and developer productivity._
